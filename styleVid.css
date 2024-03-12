@@ -3,7 +3,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-
 }
 
 body{
@@ -21,6 +20,12 @@ body{
     padding: 0 20px;
 }
 
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Adjust this property as needed */
+}
+
 .video-container{
     position: absolute;
     top: 0;
@@ -28,7 +33,6 @@ body{
     width: 100%;
     height: 100%;
     overflow: hidden;
-
 }
 
 .login-box{
@@ -38,37 +42,33 @@ body{
     width: 400px;
     padding: 40px;
     transform: translate(-50%,-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 15px 25px rgba(255, 255, 255, 0.6);
     border-radius: 10px;
-
 }
 
 .login-box h2{
     margin: 0 0 30px;
     padding: 0;
-    color: #fff;
+    color: #000000;
     text-align: center;
-
 }
 
 .login-box .user-box{
     position: relative;
-
 }
 
 .login-box .user-box input{
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
     margin-bottom: 30px;
     border: none;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #000000;
     outline: none;
     background-color: transparent;
-
 }
 
 .login-box .user-box label{
@@ -77,26 +77,24 @@ body{
     left: 0;
     padding: 10px 0;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
     pointer-events: none;
     transition: .5s;
-
 }
 
 .login-box .user-box input:focus ~ label,
 .login-box .user-box input:valid ~ label{
     top: -20px;
     left: 0;
-    color: #03e9f4;
+    color: #f21a61;
     font-size: 12px;
-
 }
 
 .login-box form a{
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #03e9f4;
+    color: #f21a61;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -107,11 +105,11 @@ body{
 }
 
 .login-box form a:hover{
-    background-color: #03e9f4;
+    background-color: #f21a61;
     color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 5px #03e9f4,
-                0 0 25px #03e9f4,
-                0 0 50px #03e9f4,
-                0 0 100px #03e9f4,
+    box-shadow: 0 0 5px #f21a61,
+                0 0 25px #f21a61,
+                0 0 50px #f21a61,
+                0 0 100px #f21a61,
 }
