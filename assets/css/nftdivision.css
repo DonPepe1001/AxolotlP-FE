@@ -1,0 +1,56 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%; /* Ensure the container takes up the full height of its parent */
+    justify-content: space-between; /* Aligns the children to the edges */
+}
+
+.left-half, .right-half {
+    flex: 1;
+    height: 100%;
+    display: flex; /* Ensure these containers are flex containers */
+    align-items: center; /* Center the content vertically */
+    justify-content: center; /* Center the content horizontally */
+}
+
+.left-half {
+    background-color: #f0f0f0; /* Light grey background for the left half */
+    align-items: flex-start; /* Align content to the top of the container */
+}
+
+.right-half {
+    background-color: #e0e0e0; /* Slightly darker grey for the right half */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.right-half h1 {
+    margin-bottom: 20px;
+}
+
+.right-half .division-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
+    grid-gap: 10px; /* Adjusts the gap between grid items */
+    width: 100%;
+}
+
+.division {
+    height: 100px;
+    background-color: #d0d0d0; /* Grey background for divisions */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
