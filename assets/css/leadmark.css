@@ -11422,7 +11422,7 @@ textarea.form-control {
   position: relative;
   height: 100vh;
   min-height: 500px;
-  background: url(../imgs/header.png) no-repeat center center fixed;
+  background: url(../imgs/-9JX3KHVsJ2XYNQOj7LRX.png) no-repeat center center fixed;
   background-size: cover;
   overflow: hidden;
 }
@@ -11753,13 +11753,4 @@ textarea.form-control {
   object-fit: cover;
   width: 350px;
   height: 300px;
- }
-
- .red-button img{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  margin-top: -20%;
-  margin-bottom: -20%;
  }
