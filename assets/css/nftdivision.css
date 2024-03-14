@@ -12,23 +12,24 @@ html {
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .container {
     display: flex;
     width: 100%;
-    height: 100%; /* Ensure the container takes up the full height of its parent */
-    justify-content: space-between; /* Aligns the children to the edges */
+    height: 100%;
+    justify-content: space-between;
 }
 
 .right-half {
     flex: 1;
     height: 100%;
-    display: flex; /* Ensure these containers are flex containers */
-    align-items: center; /* Center the content vertically */
-    justify-content: center; /* Center the content horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .right-half {
-    background-color: #e0e0e0; /* Slightly darker grey for the right half */
+    background-color: #e0e0e0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,15 +43,24 @@ html {
 
 .right-half .division-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
-    grid-gap: 10px; /* Adjusts the gap between grid items */
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
     width: 100%;
 }
 
 .division {
     opacity: 1;
-    background-color: #d0d0d0; /* Grey background for divisions */
+    background-color: #d0d0d0;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+div#a {
+width: 360px;
+height:230px;
+background-repeat: no-repeat;
+background-image: url(assets/imgs/Diseño\ sin\ título\(1\).png);
+position:absolute;
+scale: 0.8;
 }
