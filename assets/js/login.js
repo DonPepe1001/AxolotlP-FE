@@ -68,7 +68,11 @@ RandomObjectMover.prototype.stop = function() {
 	this.is_running = false;
 }
 
-var x = new RandomObjectMover(document.getElementById('a'), window);
+var x = new RandomObjectMover(document.getElementById('first'), window);
+var y = new RandomObjectMover(document.getElementById('second'), window);
+var z = new RandomObjectMover(document.getElementById('third'), window);
+var h = new RandomObjectMover(document.getElementById('fourth'), window);
+
 
 document.getElementById('start').addEventListener('click', function(){
 	x.start();
@@ -82,6 +86,12 @@ document.getElementById('speed').addEventListener('keyup', function(){
     this.value = 250;
   }
 	x.setSpeed(parseInt(this.value));
+  y.setSpeed(parseInt(this.value));
+  z.setSpeed(parseInt(this.value));
+  h.setSpeed(parseInt(this.value));
 });
 
 x.start();
+y.start();
+z.start();
+h.start();

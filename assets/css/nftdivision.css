@@ -9,11 +9,50 @@ body, html {
 }
 
 html {
-    background-image: url(/assets/imgs/-9JX3KHVsJ2XYNQOj7LRX.png);
+    background-image: url(/assets/imgs/satellite.jpeg);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: cover;
+}
+div#first {
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-image: url(/assets/imgs/Diseño\ sin\ título\(1\).png);
+    position: absolute;
+    scale: 0.5;
+    z-index: -1;
 }
 
+div#second {
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-image: url(/assets/imgs/Diseño\ sin\ título\(2\).png);
+    position: absolute;
+    scale: 0.5;
+    z-index: -1;
+}
+
+div#third {
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-image: url(/assets/imgs/Diseño\ sin\ título\(3\).png);
+    position: absolute;
+    scale: 0.5;
+    z-index: -1;
+}
+
+div#fourth {
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-image: url(/assets/imgs/Diseño\ sin\ título\(4\).png);
+    position: absolute;
+    scale: 0.5;
+    z-index: -1;
+}   
 .container {
     display: flex;
     flex-direction: row;
