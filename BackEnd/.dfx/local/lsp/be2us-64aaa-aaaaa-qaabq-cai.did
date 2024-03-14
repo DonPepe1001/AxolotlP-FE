@@ -1,0 +1,143 @@
+type Account = record { owner : principal; subaccount : opt Subaccount };
+type Block = Value;
+type BlockIndex = nat;
+type BlockRange = record { blocks : vec Block };
+type ChangeFeeCollector = variant { SetTo : Account; Unset };
+type DataCertificate = record {
+  certificate : opt vec nat8;
+  hash_tree : vec nat8;
+};
+type Duration = nat64;
+type GetBlocksArgs = record { start : BlockIndex; length : nat };
+type GetBlocksResponse = record {
+  certificate : opt vec nat8;
+  first_index : BlockIndex;
+  blocks : vec Block;
+  chain_length : nat64;
+  archived_blocks : vec record {
+    callback : QueryBlockArchiveFn;
+    start : BlockIndex;
+    length : nat;
+  };
+};
+type GetTransactionsRequest = record { start : TxIndex; length : nat };
+type GetTransactionsResponse = record {
+  first_index : TxIndex;
+  log_length : nat;
+  transactions : vec Transaction;
+  archived_transactions : vec record {
+    callback : QueryArchiveFn;
+    start : TxIndex;
+    length : nat;
+  };
+};
+type InitArgs = record {
+  token_symbol : text;
+  transfer_fee : nat64;
+  metadata : vec record { text; MetadataValue };
+  minting_account : Account;
+  initial_balances : vec record { Account; nat64 };
+  fee_collector_account : opt Account;
+  archive_options : record {
+    num_blocks_to_archive : nat64;
+    trigger_threshold : nat64;
+    max_message_size_bytes : opt nat64;
+    cycles_for_archive_creation : opt nat64;
+    node_max_memory_size_bytes : opt nat64;
+    controller_id : principal;
+  };
+  token_name : text;
+};
+type LedgerArg = variant { Upgrade : opt UpgradeArgs; Init : InitArgs };
+type Map = vec record { text; Value };
+type MetadataValue = variant {
+  Int : int;
+  Nat : nat;
+  Blob : vec nat8;
+  Text : text;
+};
+type QueryArchiveFn = func (GetTransactionsRequest) -> (TransactionRange) query;
+type QueryBlockArchiveFn = func (GetBlocksArgs) -> (BlockRange) query;
+type Subaccount = vec nat8;
+type Timestamp = nat64;
+type Tokens = nat;
+type Transaction = record {
+  burn : opt record {
+    from : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+  };
+  kind : text;
+  mint : opt record {
+    to : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+  };
+  timestamp : nat64;
+  transfer : opt record {
+    to : Account;
+    fee : opt nat;
+    from : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+  };
+};
+type TransactionRange = record { transactions : vec Transaction };
+type TransferArg = record {
+  to : Account;
+  fee : opt Tokens;
+  memo : opt vec nat8;
+  from_subaccount : opt Subaccount;
+  created_at_time : opt Timestamp;
+  amount : Tokens;
+};
+type TransferError = variant {
+  GenericError : record { message : text; error_code : nat };
+  TemporarilyUnavailable;
+  BadBurn : record { min_burn_amount : Tokens };
+  Duplicate : record { duplicate_of : BlockIndex };
+  BadFee : record { expected_fee : Tokens };
+  CreatedInFuture : record { ledger_time : nat64 };
+  TooOld;
+  InsufficientFunds : record { balance : Tokens };
+};
+type TransferResult = variant { Ok : BlockIndex; Err : TransferError };
+type TxIndex = nat;
+type UpgradeArgs = record {
+  token_symbol : opt text;
+  transfer_fee : opt nat64;
+  metadata : opt vec record { text; MetadataValue };
+  change_fee_collector : opt ChangeFeeCollector;
+  token_name : opt text;
+};
+type Value = variant {
+  Int : int;
+  Map : Map;
+  Nat : nat;
+  Nat64 : nat64;
+  Blob : vec nat8;
+  Text : text;
+  Array : vec Value;
+};
+service : {
+  get_blocks : (GetBlocksArgs) -> (GetBlocksResponse) query;
+  get_data_certificate : () -> (DataCertificate) query;
+  get_transactions : (GetTransactionsRequest) -> (
+      GetTransactionsResponse,
+    ) query;
+  icrc1_balance_of : (Account) -> (Tokens) query;
+  icrc1_decimals : () -> (nat8) query;
+  icrc1_fee : () -> (Tokens) query;
+  icrc1_metadata : () -> (vec record { text; MetadataValue }) query;
+  icrc1_minting_account : () -> (opt Account) query;
+  icrc1_name : () -> (text) query;
+  icrc1_supported_standards : () -> (
+      vec record { url : text; name : text },
+    ) query;
+  icrc1_symbol : () -> (text) query;
+  icrc1_total_supply : () -> (Tokens) query;
+  icrc1_transfer : (TransferArg) -> (TransferResult);
+}
