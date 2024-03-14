@@ -1,0 +1,125 @@
+body, html {
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center the container horizontally */
+    align-items: center; /* Center the container vertically */
+}
+
+html {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%; /* Ensures the container takes up the full width of the viewport */
+    height: 100%;
+    justify-content: space-between; /* Aligns the children to the left and right */
+}
+
+.left-container {
+    flex: .6;
+    background-color: black;
+    display: flex; /* Make .left-container a flex container */
+    justify-content: flex-start; /* Align the video to the left horizontally */
+    align-items: flex-start; /* Align the video to the top vertically */
+    overflow: hidden; /* Ensure the video does not overflow the container */
+}
+
+.right-container {
+    flex: .4;
+    display: flex; /* Make .right-container a flex container */
+    flex-direction: column; /* Stack the children vertically */
+    background-color: rgba(144, 23, 111, .50);
+    text-align: center;
+}
+
+.top-right-container {
+    flex: 2; /* Takes up 2/3 of the space */
+    padding: 5px;
+    background-color: #3482d7; /* Slightly darker for distinction */
+    text-align: center;
+}
+
+.bottom-right-container {
+    flex: 1; /* Takes up 1/3 of the space */
+    padding: 20px;
+    background-color: #3c2980;
+    text-align: center;
+}
+
+.top-right-container h1, .bottom-right-container h1 {
+    margin-bottom: 20px;
+}
+
+.left-container video {
+    width: 89%; /* Adjust the width to fit within the container */
+    height: auto; /* Adjust the height to maintain aspect ratio */
+    object-fit: contain; /* Ensure the video does not stretch */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+/* Timeline styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.timeline {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    height: 400px; /* Adjust this value based on how much content you expect and how much space you want to allocate */
+    overflow-y: scroll; /* Enables vertical scrolling */
+}
+
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: #333;
+}
+
+.timeline-content {
+    position: relative;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-content h2, .timeline-content p {
+    margin-top: 0;
+    color: black;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
