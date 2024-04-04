@@ -1,0 +1,138 @@
+type Account = record { owner : principal; subaccount : opt vec nat8 };
+type BitcoinAddress = variant {
+  p2sh : vec nat8;
+  p2wpkh_v0 : vec nat8;
+  p2pkh : vec nat8;
+};
+type BtcNetwork = variant { Mainnet; Regtest; Testnet };
+type Event = variant {
+  received_utxos : record { to_account : Account; utxos : vec Utxo };
+  sent_transaction : record {
+    change_output : opt record { value : nat64; vout : nat32 };
+    txid : vec nat8;
+    utxos : vec Utxo;
+    requests : vec nat64;
+    submitted_at : nat64;
+  };
+  distributed_kyt_fee : record {
+    block_index : nat64;
+    amount : nat64;
+    kyt_provider : principal;
+  };
+  init : InitArgs;
+  upgrade : UpgradeArgs;
+  retrieve_btc_kyt_failed : record {
+    block_index : nat64;
+    uuid : text;
+    address : text;
+    amount : nat64;
+    kyt_provider : principal;
+  };
+  accepted_retrieve_btc_request : record {
+    received_at : nat64;
+    block_index : nat64;
+    address : BitcoinAddress;
+    amount : nat64;
+    kyt_provider : opt principal;
+  };
+  checked_utxo : record {
+    clean : bool;
+    utxo : Utxo;
+    uuid : text;
+    kyt_provider : opt principal;
+  };
+  removed_retrieve_btc_request : record { block_index : nat64 };
+  confirmed_transaction : record { txid : vec nat8 };
+  ignored_utxo : record { utxo : Utxo };
+};
+type InitArgs = record {
+  kyt_principal : opt principal;
+  ecdsa_key_name : text;
+  mode : Mode;
+  retrieve_btc_min_amount : nat64;
+  ledger_id : principal;
+  max_time_in_queue_nanos : nat64;
+  btc_network : BtcNetwork;
+  min_confirmations : opt nat32;
+  kyt_fee : opt nat64;
+};
+type MinterArg = variant { Upgrade : opt UpgradeArgs; Init : InitArgs };
+type MinterInfo = record {
+  retrieve_btc_min_amount : nat64;
+  min_confirmations : nat32;
+  kyt_fee : nat64;
+};
+type Mode = variant {
+  RestrictedTo : vec principal;
+  DepositsRestrictedTo : vec principal;
+  ReadOnly;
+  GeneralAvailability;
+};
+type RetrieveBtcArgs = record { address : text; amount : nat64 };
+type RetrieveBtcError = variant {
+  MalformedAddress : text;
+  GenericError : record { error_message : text; error_code : nat64 };
+  TemporarilyUnavailable : text;
+  AlreadyProcessing;
+  AmountTooLow : nat64;
+  InsufficientFunds : record { balance : nat64 };
+};
+type RetrieveBtcOk = record { block_index : nat64 };
+type RetrieveBtcStatus = variant {
+  Signing;
+  Confirmed : record { txid : vec nat8 };
+  Sending : record { txid : vec nat8 };
+  AmountTooLow;
+  Unknown;
+  Submitted : record { txid : vec nat8 };
+  Pending;
+};
+type UpdateBalanceError = variant {
+  GenericError : record { error_message : text; error_code : nat64 };
+  TemporarilyUnavailable : text;
+  AlreadyProcessing;
+  NoNewUtxos : record {
+    required_confirmations : nat32;
+    current_confirmations : opt nat32;
+  };
+};
+type UpgradeArgs = record {
+  kyt_principal : opt principal;
+  mode : opt Mode;
+  retrieve_btc_min_amount : opt nat64;
+  max_time_in_queue_nanos : opt nat64;
+  min_confirmations : opt nat32;
+  kyt_fee : opt nat64;
+};
+type Utxo = record {
+  height : nat32;
+  value : nat64;
+  outpoint : record { txid : vec nat8; vout : nat32 };
+};
+type UtxoStatus = variant {
+  ValueTooSmall : Utxo;
+  Tainted : Utxo;
+  Minted : record { minted_amount : nat64; block_index : nat64; utxo : Utxo };
+  Checked : Utxo;
+};
+service : {
+  estimate_withdrawal_fee : (record { amount : opt nat64 }) -> (
+      record { minter_fee : nat64; bitcoin_fee : nat64 },
+    ) query;
+  get_btc_address : (
+      record { owner : opt principal; subaccount : opt vec nat8 },
+    ) -> (text);
+  get_deposit_fee : () -> (nat64) query;
+  get_events : (record { start : nat64; length : nat64 }) -> (vec Event) query;
+  get_minter_info : () -> (MinterInfo) query;
+  get_withdrawal_account : () -> (Account);
+  retrieve_btc : (RetrieveBtcArgs) -> (
+      variant { Ok : RetrieveBtcOk; Err : RetrieveBtcError },
+    );
+  retrieve_btc_status : (record { block_index : nat64 }) -> (
+      RetrieveBtcStatus,
+    ) query;
+  update_balance : (
+      record { owner : opt principal; subaccount : opt vec nat8 },
+    ) -> (variant { Ok : vec UtxoStatus; Err : UpdateBalanceError });
+}
