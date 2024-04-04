@@ -490,6 +490,10 @@ mark,
   height: auto;
 }
 
+.agenda {
+  align-items: center;
+}
+
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;
